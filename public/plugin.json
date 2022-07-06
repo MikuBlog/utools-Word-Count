@@ -1,0 +1,23 @@
+{
+  "version": "0.0.1",
+  "main": "index.html",
+  "development": {
+    "main": "http://127.0.0.1:8000/index.html"
+  },
+  "pluginName": "统计字数",
+  "homepage": "https://github.com/MikuBlog",
+  "logo": "assets/logo.png",
+  "author": "xuanzai",
+  "features": [
+    {
+      "code": "words-count",
+      "explain": "可通过超级面板呼出，统计文章中的字数",
+      "cmds": [
+        {
+					"type": "over",
+					"label": "统计字数"
+				}
+      ]
+    }
+  ]
+}

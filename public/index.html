@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.bootcdn.net/ajax/libs/weui/2.5.9/style/weui.min.css" rel="stylesheet">
+  <title>字数统计</title>
+  <style>
+    #container {
+      padding: 16px;
+    }
+
+    .weui-textarea {
+      height: 200px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="container">
+    <div class="weui-cells weui-cells_form">
+      <div class="weui-cell weui-cell_active">
+        <div class="weui-cell__bd">
+          <textarea class="weui-textarea" id="textarea" placeholder="请输入内容"></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="weui-cells">
+      <div role="option" class="weui-cell  weui-cell_example">
+        <div class="weui-cell__hd"><img
+            src="./assets/总计.png"
+            alt="" style="width: 20px; margin-right: 16px; display: block;"></div>
+        <div class="weui-cell__bd">
+          <p>共计</p>
+        </div>
+        <div class="weui-cell__ft" id="total">0</div>
+      </div>
+      <div role="option" class="weui-cell  weui-cell_example">
+        <div class="weui-cell__hd"><img
+            src="./assets/单词.png"
+            alt="" style="width: 20px; margin-right: 16px; display: block;"></div>
+        <div class="weui-cell__bd">
+          <p>单词</p>
+        </div>
+        <div class="weui-cell__ft" id="word">0</div>
+      </div>
+      <div role="option" class="weui-cell  weui-cell_example">
+        <div class="weui-cell__hd"><img
+            src="./assets/数据.png"
+            alt="" style="width: 20px; margin-right: 16px; display: block;"></div>
+        <div class="weui-cell__bd">
+          <p>数据</p>
+        </div>
+        <div class="weui-cell__ft" id="data">0</div>
+      </div>
+      <div role="option" class="weui-cell  weui-cell_example">
+        <div class="weui-cell__hd"><img
+            src="./assets/中文.png"
+            alt="" style="width: 20px; margin-right: 16px; display: block;"></div>
+        <div class="weui-cell__bd">
+          <p>汉字</p>
+        </div>
+        <div class="weui-cell__ft" id="chinese">0</div>
+      </div>
+      <div role="option" class="weui-cell  weui-cell_example">
+        <div class="weui-cell__hd"><img
+            src="./assets/字体.png"
+            alt="" style="width: 20px; margin-right: 16px; display: block;"></div>
+        <div class="weui-cell__bd">
+          <p>字母</p>
+        </div>
+        <div class="weui-cell__ft" id="letter">0</div>
+      </div>
+      <div role="option" class="weui-cell  weui-cell_example">
+        <div class="weui-cell__hd"><img
+            src="./assets/符号-中文.png"
+            alt="" style="width: 20px; margin-right: 16px; display: block;"></div>
+        <div class="weui-cell__bd">
+          <p>标点（全角）</p>
+        </div>
+        <div class="weui-cell__ft" id="angel">0</div>
+      </div>
+      <div role="option" class="weui-cell  weui-cell_example">
+        <div class="weui-cell__hd"><img
+            src="./assets/符号-英文.png"
+            alt="" style="width: 20px; margin-right: 16px; display: block;"></div>
+        <div class="weui-cell__bd">
+          <p>标点（半角）</p>
+        </div>
+        <div class="weui-cell__ft" id="half-angel">0</div>
+      </div>
+      <div role="option" class="weui-cell  weui-cell_example">
+        <div class="weui-cell__hd"><img
+            src="./assets/数字.png"
+            alt="" style="width: 20px; margin-right: 16px; display: block;"></div>
+        <div class="weui-cell__bd">
+          <p>数字</p>
+        </div>
+        <div class="weui-cell__ft" id="number">0</div>
+      </div>
+      <div role="option" class="weui-cell  weui-cell_example">
+        <div class="weui-cell__hd"><img
+            src="./assets/空白页.png"
+            alt="" style="width: 20px; margin-right: 16px; display: block;"></div>
+        <div class="weui-cell__bd">
+          <p>空白字符</p>
+        </div>
+        <div class="weui-cell__ft" id="empty">0</div>
+      </div>
+    </div>
+  </div>
+  <script>
+    // 事件函数
+    const onChange = (e) => {
+      handleContent(e.target.value);
+    };
+    // 处理内容长度
+    const handleContent = (content) => {
+      document.querySelector('#textarea').value = content;
+      document.querySelector('#total').innerText = content.length;
+      document.querySelector('#word').innerText = caculateLetter(content);
+      document.querySelector('#data').innerText = caculateData(content);
+      document.querySelector('#chinese').innerText = caculateChinese(content);
+      document.querySelector('#letter').innerText = caculateLetter(content);
+      document.querySelector('#angel').innerText = caculateAngel(content);
+      document.querySelector('#half-angel').innerText = caculateHalfAngel(content);
+      document.querySelector('#number').innerText = caculateNumber(content);
+      document.querySelector('#empty').innerText = caculateEmpty(content);
+    };
+    // 计算单词数量
+    const caculateWord = (content) => {
+      let word = 0;
+      let reg = /[a-zA-Z0-9_\u4e00-\u9fa5]+/g;
+      let result = content.match(reg);
+      if (result) {
+        word = result.length;
+      }
+      return word;
+    };
+    // 计算字母数量
+    const caculateLetter = (content) => {
+      let letter = 0;
+      let reg = /[a-zA-Z]+/g;
+      let result = content.match(reg);
+      if (result) {
+        letter = result.length;
+      }
+      return letter;
+    };
+    // 计算数据数量
+    const caculateData = (content) => {
+      let data = 0;
+      let reg = /[0-9]+/g;
+      let result = content.match(reg);
+      if (result) {
+        data = result.length;
+      }
+      return data;
+    };
+    // 计算汉字数量
+    const caculateChinese = (content) => {
+      let chinese = 0;
+      let reg = /[\u4e00-\u9fa5]+/g;
+      let result = content.match(reg);
+      if (result) {
+        chinese = result.length;
+      }
+      return chinese;
+    };
+    // 计算英文标点数量
+    const caculateAngel = (content) => {
+      let angel = 0;
+      let reg = /[\u0021-\u002F\u003A-\u0040\u005B-\u0060\u007B-\u007E]+/g;
+      let result = content.match(reg);
+      if (result) {
+        angel = result.length;
+      }
+      return angel;
+    };
+    // 计算中文标点数量
+    const caculateHalfAngel = (content) => {
+      let halfAngel = 0;
+      let reg = /[\u3001-\u3003\u3005-\u3010\u3011\u3013-\u301F\u3030\u303D\u30A0\u30FB\uFF01-\uFF0F\uFF1A-\uFF20\uFF3B-\uFF40\uFF5B-\uFF65\uFFE0\uFFE1\uFFE5\uFFE6]+/g;
+      let result = content.match(reg);
+      if (result) {
+        halfAngel = result.length;
+      }
+      return halfAngel;
+    };
+    // 计算数字数量
+    const caculateNumber = (content) => {
+      let count = 0;
+      for (let i = 0; i < content.length; i++) {
+        if (content[i] >= '0' && content[i] <= '9') {
+          count++;
+        }
+      }
+      return count;
+    };
+    // 计算空白字符数量
+    const caculateEmpty = (content) => {
+      let count = 0;
+      for (let i = 0; i < content.length; i++) {
+        if (content[i] === ' ' || content[i] === '\n' || content[i] === '\t' || content[i] === '\r') {
+          count++;
+        }
+      }
+      return count;
+    };
+    // 注册事件
+    document.querySelector('#textarea').addEventListener('input', onChange);
+    utools.onPluginEnter(({code, type, payload}) => {
+      // 初始化内容长度
+      handleContent(payload);
+    })
+  </script>
+</body>
+
+</html>
