@@ -118,9 +118,10 @@
     };
     // 处理内容长度
     const handleContent = (content) => {
+      console.log("输出的内容：" + content);
       document.querySelector('#textarea').value = content;
       document.querySelector('#total').innerText = content.length;
-      document.querySelector('#word').innerText = caculateLetter(content);
+      document.querySelector('#word').innerText = caculateWord(content);
       document.querySelector('#data').innerText = caculateData(content);
       document.querySelector('#chinese').innerText = caculateChinese(content);
       document.querySelector('#letter').innerText = caculateLetter(content);
@@ -131,18 +132,16 @@
     };
     // 计算单词数量
     const caculateWord = (content) => {
-      let word = 0;
-      let reg = /[a-zA-Z0-9_\u4e00-\u9fa5]+/g;
-      let result = content.match(reg);
-      if (result) {
-        word = result.length;
-      }
-      return word;
+      const reg = /[a-zA-Z]+/g;
+      const result = content.match(reg);
+      return result
+      ? result.length
+      : 0;
     };
-    // 计算字母数量
+    // 计算字母个数
     const caculateLetter = (content) => {
       let letter = 0;
-      let reg = /[a-zA-Z]+/g;
+      let reg = /[a-zA-Z]/g;
       let result = content.match(reg);
       if (result) {
         letter = result.length;
@@ -162,7 +161,7 @@
     // 计算汉字数量
     const caculateChinese = (content) => {
       let chinese = 0;
-      let reg = /[\u4e00-\u9fa5]+/g;
+      let reg = /[\u4e00-\u9fa5]/g;
       let result = content.match(reg);
       if (result) {
         chinese = result.length;
