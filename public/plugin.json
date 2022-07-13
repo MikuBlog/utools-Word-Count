@@ -1,9 +1,6 @@
 {
   "version": "0.0.1",
   "main": "index.html",
-  "development": {
-    "main": "http://127.0.0.1:8000"
-  },
   "pluginName": "统计字数",
   "homepage": "https://github.com/MikuBlog",
   "logo": "assets/logo.png",

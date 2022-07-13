@@ -120,7 +120,7 @@
     const handleContent = (content) => {
       console.log("输出的内容：" + content);
       document.querySelector('#textarea').value = content;
-      document.querySelector('#total').innerText = content.length;
+      document.querySelector('#total').innerText = caculateTotal(content);
       document.querySelector('#word').innerText = caculateWord(content);
       document.querySelector('#data').innerText = caculateData(content);
       document.querySelector('#chinese').innerText = caculateChinese(content);
@@ -129,6 +129,11 @@
       document.querySelector('#half-angel').innerText = caculateHalfAngel(content);
       document.querySelector('#number').innerText = caculateNumber(content);
       document.querySelector('#empty').innerText = caculateEmpty(content);
+    };
+    // 精确统计字符数量
+
+    const caculateTotal = (content) => {
+      return [...content].length;
     };
     // 计算单词数量
     const caculateWord = (content) => {
